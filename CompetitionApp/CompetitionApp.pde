@@ -77,6 +77,8 @@ int state;
 // Main functions //
 ////////////////////
 void setup() {
+  SetupGraphics();
+  
   state = TEAM_SELECTION;
   n_keyState = false;
   deltaTime = 0.0f;
@@ -114,9 +116,69 @@ void draw() {
 ////////////////////////
 // GRAPHICS RENDERING //
 ////////////////////////
+float sandY;
+ArrayList<Fish> fishList;
+ArrayList<Jelly> jellyList;
+ArrayList<Bubble> bubbleList;
+
+Crab crab;
+ScubaDiver diver;
+
+void SetupGraphics() {
+  sandY = height - 80;
+
+  fishList = new ArrayList<Fish>();
+  jellyList = new ArrayList<Jelly>();
+  bubbleList = new ArrayList<Bubble>();
+
+  for (int i = 0; i < 15; i++) {
+    fishList.add(new Fish(random(width), random(100, sandY - 50)));
+  }
+
+  for (int i = 0; i < 10; i++) {
+    jellyList.add(new Jelly(random(width), random(50, sandY - 100)));
+  }
+
+  for (int i = 0; i < 50; i++) {
+    bubbleList.add(new Bubble(random(width), random(height)));
+  }
+
+  crab = new Crab(width/2, sandY + 30);
+  diver = new ScubaDiver(-100, random(150, sandY - 150));
+}
+
+void DrawSand() {
+  noStroke();
+  fill(194, 178, 128);
+  rect(0, sandY, width, height - sandY);
+}
+
 void RenderBackground() {
-  background(0, 0, 0, 255);
+  background(20, 100, 180);
+  DrawSand();
 }
 
 void RenderForeground() {
+  for (Bubble b : bubbleList) {
+    b.update();
+    b.display();
+  }
+
+  for (Fish f : fishList) {
+    f.update();
+    if (f.y < sandY - 10) f.display();
+  }
+
+  for (Jelly j : jellyList) {
+    j.update();
+    if (j.y < sandY - 20) j.display();
+  }
+
+  diver.update();
+  diver.display();
+
+  DrawSand();
+
+  crab.update();
+  crab.display();
 }
