@@ -1,9 +1,6 @@
-final int TEAM_SELECTION = 0;
-final int MID_GAME = 1;
-final int JUDGING = 2;
-final int RESULTS = 3;
-
-// Some useful definitions to streamline workflow of developing UI/UX of app.
+///////////////////////////////////////
+// Class and Interface Definition(s) //
+///////////////////////////////////////
 interface AppState {
   public void InitState();
   public void TickState();
@@ -38,8 +35,13 @@ class Team {
   private int score;
 }
 
-// Store the different handlers for the different states in a hashmap.
-
+////////////////////////////
+// Global final variables //
+////////////////////////////
+final int TEAM_SELECTION = 0;
+final int MID_GAME = 1;
+final int JUDGING = 2;
+final int RESULTS = 3;
 
 final HashMap<Integer, AppState> appStateHandlers = new HashMap<Integer, AppState>(); {
   appStateHandlers.put(TEAM_SELECTION, new TeamSelectionState());
@@ -48,28 +50,32 @@ final HashMap<Integer, AppState> appStateHandlers = new HashMap<Integer, AppStat
   appStateHandlers.put(RESULTS, new ResultsState());
 }
 
-final Team[] ALL_TEAMS = {
-  new Team("Team 1", Team.ASSIGNED_TEAMNONE),
-  new Team("Team 2", Team.ASSIGNED_TEAMNONE),
-  new Team("Team 3", Team.ASSIGNED_TEAMNONE),
-  new Team("Team 4", Team.ASSIGNED_TEAMNONE),
-  new Team("Team 5", Team.ASSIGNED_TEAMNONE),
-  new Team("Team 6", Team.ASSIGNED_TEAMNONE),
-  new Team("Team 7", Team.ASSIGNED_TEAMNONE),
-  new Team("Team 8", Team.ASSIGNED_TEAMNONE),
-  new Team("Team 9", Team.ASSIGNED_TEAMNONE)
-};
-
 final color teamAColor = color(255, 0, 0);
 final color teamBColor = color(0, 0, 255);
 
-// Global State Variables
+////////////////////////////
+// Global State Variables //
+////////////////////////////
+final Team[] ALL_TEAMS = {
+  new Team("Adjala", Team.ASSIGNED_TEAMNONE),
+  new Team("Tec South", Team.ASSIGNED_TEAMNONE),
+  new Team("Cookstown", Team.ASSIGNED_TEAMNONE),
+  new Team("Tottenham", Team.ASSIGNED_TEAMNONE),
+  new Team("Alliston Union", Team.ASSIGNED_TEAMNONE),
+  new Team("Boyne River", Team.ASSIGNED_TEAMNONE),
+  new Team("Ernest Cumberland", Team.ASSIGNED_TEAMNONE),
+  new Team("Banting Memorial HS", Team.ASSIGNED_TEAMNONE)
+};
+
+TextInput focusedInstance;
 boolean n_keyState;
 
 float deltaTime;
 int state;
 
-// Main functions
+////////////////////
+// Main functions //
+////////////////////
 void setup() {
   state = TEAM_SELECTION;
   n_keyState = false;
@@ -82,6 +88,9 @@ void setup() {
 }
 
 void draw() {
+  RenderBackground();
+  
+  // Listen for the advance state key.
   if(keyPressed) {
     if(key == 'n' && !n_keyState) {
       n_keyState = true;
@@ -90,11 +99,24 @@ void draw() {
         state = 0;
       }
       
+      // Initialize the new state.
       appStateHandlers.get(state).InitState();
     }
   } else {
     n_keyState = false;
   }
   
+  // Tick the current state.
   appStateHandlers.get(state).TickState();
+  RenderForeground();
+}
+
+////////////////////////
+// GRAPHICS RENDERING //
+////////////////////////
+void RenderBackground() {
+  background(0, 0, 0, 255);
+}
+
+void RenderForeground() {
 }

@@ -30,13 +30,10 @@ class ResultsState implements AppState {
   }
   
   @Override
-  public void InitState() {
-  }
+  public void InitState() {}
   
   @Override
   public void TickState() {
-    background(0, 0, 0);
-    
     // Render the individual scores
     int numA = 0;
     int numB = 0;

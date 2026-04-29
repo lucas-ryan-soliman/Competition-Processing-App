@@ -10,7 +10,6 @@ class MidGameState implements AppState {
   
   @Override
   public void TickState() {
-    background(0, 0, 0);
     if(lastTime != second()) {
       remainingTime--;
       lastTime = second();

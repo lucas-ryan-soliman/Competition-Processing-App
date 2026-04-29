@@ -8,7 +8,7 @@ class TeamSelectionState implements AppState {
   private int screenRight;
   private int screenMiddle;
   
-  // Important state variable
+  // Important state for team selection.
   private int pointer;
   
   TeamSelectionState() {
@@ -55,7 +55,7 @@ class TeamSelectionState implements AppState {
       return;
     }
     
-    if(key >= '1' && key <= '9') {
+    if(key >= '1' && key <= '8') {
       int index = key - '1';
       print(index);
       pointer = index;
@@ -84,15 +84,11 @@ class TeamSelectionState implements AppState {
     }
   }
   
-  private void RenderBackground() {
-    
-  }
-  
   private void RenderUI() {
-    background(100, 0, 0);
     screenRight = width;
     screenMiddle = width / 2;
     
+    // Calculate rectangles
     final int teamARectHeight = CalculateTeamStateDisplayRectHeight(Team.ASSIGNED_TEAMA, teamDisplayNameFontSize);
     final int teamBRectHeight = CalculateTeamStateDisplayRectHeight(Team.ASSIGNED_TEAMB, teamDisplayNameFontSize);
     
