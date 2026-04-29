@@ -1,8 +1,5 @@
 class TeamSelectionState implements AppState {
   // Aliasing and constants for readability  
-  private final color teamAColor = color(255, 0, 0);
-  private final color teamBColor = color(0, 0, 255);
-  
   private final float rectPadding = 20;
   private final float textSpacing = 10;
   private final int teamDisplayHeaderFontSize = 40;
@@ -44,7 +41,7 @@ class TeamSelectionState implements AppState {
     }
     
     int res = 0;
-    for(Team t : Team.ALL_TEAMS) {
+    for(Team t : ALL_TEAMS) {
       if(t.GetState() == state) {
         res += displayNameFontSize + textSpacing;
       }
@@ -65,21 +62,21 @@ class TeamSelectionState implements AppState {
     }
     
     if(key == 'r' && pointer != -1) {
-      Team.ALL_TEAMS[pointer].SetState(Team.ASSIGNED_TEAMA);
+      ALL_TEAMS[pointer].SetState(Team.ASSIGNED_TEAMA);
       return;
     }
     
     if(key == 'b' && pointer != -1) {
-      Team.ALL_TEAMS[pointer].SetState(Team.ASSIGNED_TEAMB);
+      ALL_TEAMS[pointer].SetState(Team.ASSIGNED_TEAMB);
       return;
     }
     
     if(key == '0' && pointer != -1) {
-      Team.ALL_TEAMS[pointer].SetState(Team.ASSIGNED_TEAMNONE);
+      ALL_TEAMS[pointer].SetState(Team.ASSIGNED_TEAMNONE);
     }
     
     if(key == 'c') {
-      for(Team t : Team.ALL_TEAMS) {
+      for(Team t : ALL_TEAMS) {
         t.SetState(Team.ASSIGNED_TEAMNONE);
       }
       
@@ -116,8 +113,8 @@ class TeamSelectionState implements AppState {
     // Draw the teams under their corresponding teams
     int countTeamA = 0;
     int countTeamB = 0;
-    for(int i = 0; i < Team.ALL_TEAMS.length; i++) {
-      Team t = Team.ALL_TEAMS[i];
+    for(int i = 0; i < ALL_TEAMS.length; i++) {
+      Team t = ALL_TEAMS[i];
       if(t.GetState() == Team.ASSIGNED_TEAMNONE) {
         continue;
       }
@@ -144,13 +141,14 @@ class TeamSelectionState implements AppState {
   
   @Override
   public void InitState() {
-    for(Team t : Team.ALL_TEAMS) {
+    for(Team t : ALL_TEAMS) {
       t.SetState(Team.ASSIGNED_TEAMNONE);
     }
   }
   
   @Override
   public void TickState() {
+    // Calculate the aliases used for rendering
     screenMiddle = width / 2;
     screenRight = width;
     

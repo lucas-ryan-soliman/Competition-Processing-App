@@ -39,6 +39,8 @@ class Team {
 }
 
 // Store the different handlers for the different states in a hashmap.
+
+
 final HashMap<Integer, AppState> appStateHandlers = new HashMap<Integer, AppState>(); {
   appStateHandlers.put(TEAM_SELECTION, new TeamSelectionState());
   appStateHandlers.put(MID_GAME, new MidGameState());
@@ -58,14 +60,25 @@ final Team[] ALL_TEAMS = {
   new Team("Team 9", Team.ASSIGNED_TEAMNONE)
 };
 
+final color teamAColor = color(255, 0, 0);
+final color teamBColor = color(0, 0, 255);
+
 // Global State Variables
+boolean n_keyState;
+
+float deltaTime;
 int state;
-boolean n_keyState = false;
 
 // Main functions
 void setup() {
   state = TEAM_SELECTION;
+  n_keyState = false;
+  deltaTime = 0.0f;
+  frameRate(60);
   fullScreen();
+  
+  deltaTime = 1f / 60f;
+  appStateHandlers.get(state).InitState();
 }
 
 void draw() {
