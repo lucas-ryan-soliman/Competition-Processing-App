@@ -78,7 +78,14 @@ class JudgingState implements AppState {
     }
 
     public Integer GetData() {
-      return Integer.parseInt(data);
+      int res = 0;
+      try {
+        res = Integer.parseInt(data);
+      } catch(Exception e) {
+        return 0;
+      }
+      
+      return res; //
     }
 
     public void Tick() {
@@ -109,6 +116,8 @@ class JudgingState implements AppState {
   private int screenWidth;
 
   private void RenderUI() {
+    int numA = 0;
+    int numB = 0;
     for (int i = 0; i < judgedTeams.size(); i++) {
       Team t = judgedTeams.get(i).inputTarget;
       TextInput si = judgedTeams.get(i).scoreInput;
@@ -117,11 +126,11 @@ class JudgingState implements AppState {
       }
 
       // Color to apply onto border
-      color c = ALL_TEAMS[i].GetState() == Team.ASSIGNED_TEAMA ? teamAColor : teamBColor;
+      color strokeColor = ALL_TEAMS[i].GetState() == Team.ASSIGNED_TEAMA ? teamAColor : teamBColor;
 
       // Calculate row and column and dimensions
-      int row = i % 5;
-      int col = i / 5;
+      int row = t.GetState() == Team.ASSIGNED_TEAMA ? numA : numB;
+      int col = t.GetState() == Team.ASSIGNED_TEAMA ? 0 : 1;
       int gridWidth = screenWidth / gridColumns;
       int gridHeight = screenHeight / gridRows;
 
@@ -135,7 +144,7 @@ class JudgingState implements AppState {
       si.Tick();
 
       // Draw the rectangle
-      stroke(c);
+      stroke(strokeColor);
       fill(0, 0, 0, 128);
       rect(posX, posY, w, h);
       
@@ -143,6 +152,9 @@ class JudgingState implements AppState {
       textSize(80);
       textAlign(CENTER, CENTER);
       text(t.GetName(), posX, posY, w / 2, h);
+      
+      if(t.GetState() == Team.ASSIGNED_TEAMA) { numA++; }
+      if(t.GetState() == Team.ASSIGNED_TEAMB) { numB++; }
     }
   }
 

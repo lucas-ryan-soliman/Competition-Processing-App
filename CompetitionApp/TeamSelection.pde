@@ -1,12 +1,12 @@
 class TeamSelectionState implements AppState {
   // Aliasing and constants for readability  
-  private final float rectPadding = 20;
+  private final float rectPadding = 10;
   private final float textSpacing = 10;
   private final int teamDisplayHeaderFontSize = 40;
   private final int teamDisplayNameFontSize = 20;
   
-  private int screenMiddle;
   private int screenRight;
+  private int screenMiddle;
   
   // Important state variable
   private int pointer;
@@ -90,11 +90,15 @@ class TeamSelectionState implements AppState {
   
   private void RenderUI() {
     background(100, 0, 0);
+    screenRight = width;
+    screenMiddle = width / 2;
+    
     final int teamARectHeight = CalculateTeamStateDisplayRectHeight(Team.ASSIGNED_TEAMA, teamDisplayNameFontSize);
     final int teamBRectHeight = CalculateTeamStateDisplayRectHeight(Team.ASSIGNED_TEAMB, teamDisplayNameFontSize);
     
     // Draw the left rectangle containing teams from team 1
     fill(0, 0, 0, 128);
+    stroke(0);
     rect(rectPadding, rectPadding, screenMiddle - rectPadding, teamDisplayHeaderFontSize + rectPadding + teamARectHeight);
     
     // Draw the right rectangle containing teams from team 2
