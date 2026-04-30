@@ -55,7 +55,7 @@ class ResultsState implements AppState {
       if(t.GetState() == Team.ASSIGNED_TEAMB) { numB++; }
     }
     
-    DrawInGrid(0, numA, "Team 1 Score: " + scoreSumA, teamAColor, color(0, 0, 0, 255), color(255, 255, 255, 255));
-    DrawInGrid(1, numB, "Team 2 Score: " + scoreSumB, teamBColor, color(0, 0, 0, 255), color(255, 255, 255, 255));
+    DrawInGrid(0, numA, "Team A Score: " + scoreSumA, teamAColor, color(0, 0, 0, 255), color(255, 255, 255, 255));
+    DrawInGrid(1, numB, "Team B Score: " + scoreSumB, teamBColor, color(0, 0, 0, 255), color(255, 255, 255, 255));
   }
 }

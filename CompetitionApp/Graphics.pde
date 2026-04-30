@@ -65,7 +65,7 @@ class Jelly {
   }
 }
 
-// ---------------- CRAB ----------------
+// ---------------- CRAB ---------------- //
 class Crab {
   float x, y;
   float dir = 1;
@@ -105,7 +105,7 @@ class Crab {
   }
 }
 
-// ---------------- BUBBLES ----------------
+// ---------------- BUBBLES ---------------- //
 class Bubble {
   float x, y;
   float speed;
@@ -137,7 +137,7 @@ class Bubble {
   }
 }
 
-// ---------------- SCUBA DIVER ----------------
+// ---------------- SCUBA DIVER ---------------- //
 class ScubaDiver {
   float x, y;
   float speed;

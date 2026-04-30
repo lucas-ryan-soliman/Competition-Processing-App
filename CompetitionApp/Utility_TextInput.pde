@@ -36,12 +36,20 @@ class TextInput {
       return;
     }
 
-    if (keyPressed) {        
+    if (keyPressed) {      
+      if(key == ENTER) {
+        return;
+      }
+      
+      if(key == ' ') {
+        return;
+      }
+      
       if (firstInputPass) {
         if (key == BACKSPACE) {
           if (data.length() > 0) { data = data.substring(0, data.length() - 1); }
         } else if (key != CODED) {
-          if (key >= '0' || key <= '9' && key != ENTER) {
+          if (key >= '0' || key <= '9') {
             data += key;
           }
         }

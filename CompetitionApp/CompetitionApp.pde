@@ -168,7 +168,7 @@ void RenderForeground() {
     f.update();
     if (f.y < sandY - 10) f.display();
   }
-
+  
   for (Jelly j : jellyList) {
     j.update();
     if (j.y < sandY - 20) j.display();
@@ -176,8 +176,6 @@ void RenderForeground() {
 
   diver.update();
   diver.display();
-
-  DrawSand();
 
   crab.update();
   crab.display();

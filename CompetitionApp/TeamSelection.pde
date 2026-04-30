@@ -3,7 +3,7 @@ class TeamSelectionState implements AppState {
   private final float rectPadding = 10;
   private final float textSpacing = 10;
   private final int teamDisplayHeaderFontSize = 40;
-  private final int teamDisplayNameFontSize = 20;
+  private final int teamDisplayNameFontSize = 60;
   
   private int screenRight;
   private int screenMiddle;
@@ -95,11 +95,11 @@ class TeamSelectionState implements AppState {
     // Draw the left rectangle containing teams from team 1
     fill(0, 0, 0, 128);
     stroke(0);
-    rect(rectPadding, rectPadding, screenMiddle - rectPadding, teamDisplayHeaderFontSize + rectPadding + teamARectHeight);
+    rect(rectPadding, rectPadding, screenMiddle - rectPadding, teamDisplayHeaderFontSize + rectPadding + teamARectHeight + textSpacing);
     
     // Draw the right rectangle containing teams from team 2
     fill(0, 0, 0, 128);
-    rect(screenMiddle + rectPadding, rectPadding, screenRight - 2 * rectPadding, teamDisplayHeaderFontSize + rectPadding + teamBRectHeight);
+    rect(screenMiddle + rectPadding, rectPadding, screenMiddle - 2 * rectPadding, teamDisplayHeaderFontSize + rectPadding + teamBRectHeight + textSpacing);
     
     // Draw the text
     fill(255, 255, 255, 255);
@@ -107,8 +107,8 @@ class TeamSelectionState implements AppState {
     textSize(teamDisplayHeaderFontSize);
     
     // Draw the headers
-    text("= Team 1 =", CalculateMiddle(rectPadding, screenMiddle - rectPadding), rectPadding + teamDisplayHeaderFontSize);
-    text("= Team 2 =", CalculateMiddle(screenMiddle + rectPadding, screenRight - 2 * rectPadding), rectPadding + teamDisplayHeaderFontSize);
+    text("= Team A =", CalculateMiddle(rectPadding, screenMiddle - rectPadding), rectPadding + teamDisplayHeaderFontSize);
+    text("= Team B =", CalculateMiddle(screenMiddle + rectPadding, screenRight - 2 * rectPadding), rectPadding + teamDisplayHeaderFontSize);
     
     // Draw the teams under their corresponding teams
     int countTeamA = 0;
@@ -131,6 +131,10 @@ class TeamSelectionState implements AppState {
         fill(teamBColor);
         y = CalculateVerticalTextOffset(teamDisplayNameFontSize + textSpacing, teamDisplayHeaderFontSize, countTeamB);
         countTeamB++;
+      }
+      
+      if(t.GetName() == "Banting Memorial HS") {
+        fill(255, 215, 0);
       }
 
       textSize(teamDisplayNameFontSize);
