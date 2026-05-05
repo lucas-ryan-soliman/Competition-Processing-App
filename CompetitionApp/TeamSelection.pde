@@ -160,7 +160,6 @@ class TeamSelectionState implements AppState {
     ListenToInput();
     
     // Render the important stuff
-    RenderBackground();
     RenderUI();
   }
 }
