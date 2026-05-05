@@ -56,9 +56,6 @@ final int NUM_FISH = 50;
 final int NUM_JELLYFISH = 25;
 final int NUM_BUBBLES = 25;
 
-// This class is used to render the fish, background, etc.
-
-
 // This hashmap contains all the different application states and their functionalities
 final HashMap<Integer, AppState> appStateHandlers = new HashMap<Integer, AppState>(); {
   appStateHandlers.put(APPSTATE_TEAMSELECTION, new TeamSelectionState());
