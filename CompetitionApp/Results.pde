@@ -35,7 +35,7 @@ class ResultsState implements AppState {
     text("Team Blue Score: ", blueScoreInputX, blueScoreInputY, blueScoreInputW, blueScoreInputH / 4);
     
     textSize(400);
-    text("" + blueTeamScore, redScoreInputX, redScoreInputY + redScoreInputH / 5, redScoreInputW, redScoreInputH - redScoreInputH / 4);
-    text("" + redTeamScore, blueScoreInputX, blueScoreInputY + blueScoreInputH / 5, blueScoreInputW, blueScoreInputH - blueScoreInputH / 4);
+    text("" + redTeamScore, redScoreInputX, redScoreInputY + redScoreInputH / 5, redScoreInputW, redScoreInputH - redScoreInputH / 4);
+    text("" + blueTeamScore, blueScoreInputX, blueScoreInputY + blueScoreInputH / 5, blueScoreInputW, blueScoreInputH - blueScoreInputH / 4);
   }
 }
