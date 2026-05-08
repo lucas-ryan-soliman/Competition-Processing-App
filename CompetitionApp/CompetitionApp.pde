@@ -1,9 +1,16 @@
-///////////////////////////////////////
-// Class and Interface Definition(s) //
-///////////////////////////////////////
+// Imports
+import java.util.Arrays;
+
+////////////////////////////////////////////
+// Simple Class and Interface Definitions //
+////////////////////////////////////////////
 interface AppState {
   public void InitState();
   public void TickState();
+}
+
+interface RenderableObject {
+  public void Render();
 }
 
 class Team {  
@@ -17,8 +24,10 @@ class Team {
   }
   
   public String GetName() { return teamName; }
-  public int GetState() { return teamState; }
+  
   public void SetState(int state) { teamState = state; }
+  public int GetState() { return teamState; }
+  
   public void SetScore(int score) { this.score = score; }
   public int GetScore() { return score; }
   
@@ -38,145 +47,96 @@ class Team {
 ////////////////////////////
 // Global final variables //
 ////////////////////////////
-final int TEAM_SELECTION = 0;
-final int MID_GAME = 1;
-final int JUDGING = 2;
-final int RESULTS = 3;
+final int APPSTATE_TEAMSELECTION = 0;
+final int APPSTATE_MIDGAME = 1;
+final int APPSTATE_JUDGING = 2;
+final int APPSTATE_RESULTS = 3;
 
+final int GRAPHICSSTATE_NORMAL = 4;
+final int GRAPHICSSTATE_PANICKED = 5;
+
+final int NUM_FISH = 25;
+final int NUM_BUBBLES = 50;
+
+// This hashmap contains all the different application states and their functionalities
 final HashMap<Integer, AppState> appStateHandlers = new HashMap<Integer, AppState>(); {
-  appStateHandlers.put(TEAM_SELECTION, new TeamSelectionState());
-  appStateHandlers.put(MID_GAME, new MidGameState());
-  appStateHandlers.put(JUDGING, new JudgingState());
-  appStateHandlers.put(RESULTS, new ResultsState());
+  appStateHandlers.put(APPSTATE_TEAMSELECTION, new TeamSelectionState());
+  appStateHandlers.put(APPSTATE_MIDGAME, new MidGameState());
+  appStateHandlers.put(APPSTATE_JUDGING, new JudgingState());
+  appStateHandlers.put(APPSTATE_RESULTS, new ResultsState());
 }
 
-final color teamAColor = color(255, 0, 0);
-final color teamBColor = color(0, 0, 255);
+// This array contains all the teams of the competition and their data
+final Team[] ALL_TEAMS = {
+  new Team("Adjala", Team.ASSIGNED_TEAMNONE), // 1
+  new Team("Tec South", Team.ASSIGNED_TEAMNONE), // 2
+  new Team("Cookstown", Team.ASSIGNED_TEAMNONE), // 3
+  new Team("Tottenham", Team.ASSIGNED_TEAMNONE), // 4
+  new Team("Alliston Union", Team.ASSIGNED_TEAMNONE), // 5
+  new Team("Boyne River", Team.ASSIGNED_TEAMNONE), // 6
+  new Team("Ernest Cumberland", Team.ASSIGNED_TEAMNONE), // 7
+  new Team("Banting Memorial HS", Team.ASSIGNED_TEAMNONE), // 8
+  new Team("Team RED", Team.ASSIGNED_TEAMNONE), // A
+  new Team("Team BLUE", Team.ASSIGNED_TEAMNONE) // Z
+};
+
+/////////////////
+// Team colors //
+/////////////////
+final color blueTeamColor = color(255, 0, 0);
+final color redTeamColor = color(0, 0, 255);
 
 ////////////////////////////
 // Global State Variables //
 ////////////////////////////
-final Team[] ALL_TEAMS = {
-  new Team("Adjala", Team.ASSIGNED_TEAMNONE),
-  new Team("Tec South", Team.ASSIGNED_TEAMNONE),
-  new Team("Cookstown", Team.ASSIGNED_TEAMNONE),
-  new Team("Tottenham", Team.ASSIGNED_TEAMNONE),
-  new Team("Alliston Union", Team.ASSIGNED_TEAMNONE),
-  new Team("Boyne River", Team.ASSIGNED_TEAMNONE),
-  new Team("Ernest Cumberland", Team.ASSIGNED_TEAMNONE),
-  new Team("Banting Memorial HS", Team.ASSIGNED_TEAMNONE)
-};
-
+AppGraphics appGraphics;
 TextInput focusedInstance;
 boolean n_keyState;
 
+float time;
 float deltaTime;
-int state;
+int appState;
+
+int blueTeamScore;
+int redTeamScore;
 
 ////////////////////
 // Main functions //
 ////////////////////
 void setup() {
-  SetupGraphics();
-  
-  state = TEAM_SELECTION;
+  appState = APPSTATE_TEAMSELECTION;
   n_keyState = false;
-  deltaTime = 0.0f;
   frameRate(60);
   fullScreen();
+  noSmooth();
+  
+  appGraphics = new AppGraphics(NUM_FISH, NUM_BUBBLES);
   
   deltaTime = 1f / 60f;
-  appStateHandlers.get(state).InitState();
+  appStateHandlers.get(appState).InitState();
 }
 
 void draw() {
-  RenderBackground();
+  time = millis() / 1000.0f;
+  appGraphics.RenderBackground();
+  appGraphics.RenderForeground();
   
   // Listen for the advance state key.
   if(keyPressed) {
     if(key == 'n' && !n_keyState) {
       n_keyState = true;
-      state += 1;
-      if(state == RESULTS + 1) {
-        state = 0;
+      appState += 1;
+      if(appState == APPSTATE_RESULTS + 1) {
+        appState = 0;
       }
       
       // Initialize the new state.
-      appStateHandlers.get(state).InitState();
+      appStateHandlers.get(appState).InitState();
     }
   } else {
     n_keyState = false;
   }
   
   // Tick the current state.
-  appStateHandlers.get(state).TickState();
-  RenderForeground();
-}
-
-////////////////////////
-// GRAPHICS RENDERING //
-////////////////////////
-float sandY;
-ArrayList<Fish> fishList;
-ArrayList<Jelly> jellyList;
-ArrayList<Bubble> bubbleList;
-
-Crab crab;
-ScubaDiver diver;
-
-void SetupGraphics() {
-  sandY = height - 80;
-
-  fishList = new ArrayList<Fish>();
-  jellyList = new ArrayList<Jelly>();
-  bubbleList = new ArrayList<Bubble>();
-
-  for (int i = 0; i < 15; i++) {
-    fishList.add(new Fish(random(width), random(100, sandY - 50)));
-  }
-
-  for (int i = 0; i < 10; i++) {
-    jellyList.add(new Jelly(random(width), random(50, sandY - 100)));
-  }
-
-  for (int i = 0; i < 50; i++) {
-    bubbleList.add(new Bubble(random(width), random(height)));
-  }
-
-  crab = new Crab(width/2, sandY + 30);
-  diver = new ScubaDiver(-100, random(150, sandY - 150));
-}
-
-void DrawSand() {
-  noStroke();
-  fill(194, 178, 128);
-  rect(0, sandY, width, height - sandY);
-}
-
-void RenderBackground() {
-  background(20, 100, 180);
-  DrawSand();
-}
-
-void RenderForeground() {
-  for (Bubble b : bubbleList) {
-    b.update();
-    b.display();
-  }
-
-  for (Fish f : fishList) {
-    f.update();
-    if (f.y < sandY - 10) f.display();
-  }
-  
-  for (Jelly j : jellyList) {
-    j.update();
-    if (j.y < sandY - 20) j.display();
-  }
-
-  diver.update();
-  diver.display();
-
-  crab.update();
-  crab.display();
+  appStateHandlers.get(appState).TickState();
 }

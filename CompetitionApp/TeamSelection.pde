@@ -2,8 +2,8 @@ class TeamSelectionState implements AppState {
   // Aliasing and constants for readability  
   private final float rectPadding = 10;
   private final float textSpacing = 10;
-  private final int teamDisplayHeaderFontSize = 40;
-  private final int teamDisplayNameFontSize = 60;
+  private final int teamDisplayHeaderFontSize = 50;
+  private final int teamDisplayNameFontSize = 100;
   
   private int screenRight;
   private int screenMiddle;
@@ -61,6 +61,14 @@ class TeamSelectionState implements AppState {
       pointer = index;
     }
     
+    if(key == 'z') {
+      pointer = 8;
+    }
+    
+    if(key == 'x') {
+      pointer = 9;
+    }
+    
     if(key == 'r' && pointer != -1) {
       ALL_TEAMS[pointer].SetState(Team.ASSIGNED_TEAMA);
       return;
@@ -107,8 +115,8 @@ class TeamSelectionState implements AppState {
     textSize(teamDisplayHeaderFontSize);
     
     // Draw the headers
-    text("= Team A =", CalculateMiddle(rectPadding, screenMiddle - rectPadding), rectPadding + teamDisplayHeaderFontSize);
-    text("= Team B =", CalculateMiddle(screenMiddle + rectPadding, screenRight - 2 * rectPadding), rectPadding + teamDisplayHeaderFontSize);
+    text("= Team Red =", CalculateMiddle(rectPadding, screenMiddle - rectPadding), rectPadding + teamDisplayHeaderFontSize);
+    text("= Team Blue =", CalculateMiddle(screenMiddle + rectPadding, screenRight - 2 * rectPadding), rectPadding + teamDisplayHeaderFontSize);
     
     // Draw the teams under their corresponding teams
     int countTeamA = 0;
@@ -122,13 +130,13 @@ class TeamSelectionState implements AppState {
       float x = CalculateCenterAlignment(t);
       float y = 0f;
       if(t.GetState() == Team.ASSIGNED_TEAMA) {
-        fill(teamAColor);
+        fill(blueTeamColor);
         y = CalculateVerticalTextOffset(teamDisplayNameFontSize + textSpacing, teamDisplayHeaderFontSize, countTeamA);
         countTeamA++;
       }
       
       if(t.GetState() == Team.ASSIGNED_TEAMB) {
-        fill(teamBColor);
+        fill(redTeamColor);
         y = CalculateVerticalTextOffset(teamDisplayNameFontSize + textSpacing, teamDisplayHeaderFontSize, countTeamB);
         countTeamB++;
       }
@@ -139,7 +147,7 @@ class TeamSelectionState implements AppState {
 
       textSize(teamDisplayNameFontSize);
       textAlign(CENTER);
-      text(t.GetName() + " (" + (i+1) + ")" , x, y);
+      text(t.GetName(), x, y);
     }
   }
   
@@ -160,7 +168,6 @@ class TeamSelectionState implements AppState {
     ListenToInput();
     
     // Render the important stuff
-    RenderBackground();
     RenderUI();
   }
 }

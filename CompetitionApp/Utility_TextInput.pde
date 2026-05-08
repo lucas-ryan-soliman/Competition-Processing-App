@@ -1,5 +1,5 @@
 class TextInput {
-  private final float inputTimeBuffer = 0.2f;
+  private final float inputTimeBuffer = 1.0f;
   private float currentTimeBuffer;
   private boolean firstInputPass;
   private String data;
@@ -48,8 +48,8 @@ class TextInput {
       if (firstInputPass) {
         if (key == BACKSPACE) {
           if (data.length() > 0) { data = data.substring(0, data.length() - 1); }
-        } else if (key != CODED) {
-          if (key >= '0' || key <= '9') {
+        } else {
+          if (Character.isDigit(key)) {
             data += key;
           }
         }
@@ -65,8 +65,8 @@ class TextInput {
       // Basic input reading
       if (key == BACKSPACE) {
         if (data.length() > 0) { data = data.substring(0, data.length() - 1); }
-      } else if (key != CODED) {
-        if (key >= '0' || key <= '9') {
+      } else {
+        if (Character.isDigit(key)) {
           data += key;
         }
       }
@@ -77,6 +77,11 @@ class TextInput {
     // Reset the input pass
     firstInputPass = true;
     currentTimeBuffer = inputTimeBuffer;
+  }
+
+  public void ClearData() {
+    firstInputPass = true;
+    data = "";
   }
 
   public Integer GetData() {
@@ -96,14 +101,21 @@ class TextInput {
     }
 
     ReadData();
-
+    
     fill(0, 0, 0);
+    if(focusedInstance == this) {
+      fill(0, 0, 128, 255);
+    }
+    
+    if(GetData() > 0) {
+      fill(0, 255, 0);
+    }
+    
     stroke(255, 255, 255);
     rect(x, y, w, h);
 
     fill(255, 255, 255, 255);
     textSize(80);
     textAlign(CENTER, CENTER);
-    text(data, x, y, w, h);
   }
 }

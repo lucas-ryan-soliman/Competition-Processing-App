@@ -1,86 +1,66 @@
 class JudgingState implements AppState {
-  class ScoreInput {
-    public TextInput scoreInput;
-    public Team inputTarget;
+  private final int scoreInputPadding = 10;
+  private TextInput blueTeamScoreInput;
+  private TextInput redTeamScoreInput;
+  
+  public JudgingState() {
+    blueTeamScoreInput = new TextInput();
+    redTeamScoreInput = new TextInput();
   }
-
-  private final int scoreUIPadding = 20;
-  private final int gridColumns = 2;
-  private final int gridRows = 5;
-
-  private ArrayList<ScoreInput> judgedTeams;
-  private int screenHeight;
-  private int screenWidth;
-
+  
   private void RenderUI() {
-    int numA = 0;
-    int numB = 0;
-    for (int i = 0; i < judgedTeams.size(); i++) {
-      Team t = judgedTeams.get(i).inputTarget;
-      TextInput si = judgedTeams.get(i).scoreInput;
-      if (t.GetState() == Team.ASSIGNED_TEAMNONE) {
-        continue;
-      }
-
-      // Color to apply onto border
-      color strokeColor = ALL_TEAMS[i].GetState() == Team.ASSIGNED_TEAMA ? teamAColor : teamBColor;
-
-      // Calculate row and column and dimensions
-      int row = t.GetState() == Team.ASSIGNED_TEAMA ? numA : numB;
-      int col = t.GetState() == Team.ASSIGNED_TEAMA ? 0 : 1;
-      int gridWidth = screenWidth / gridColumns;
-      int gridHeight = screenHeight / gridRows;
-
-      // Calculate padded dimensions
-      int posX = gridWidth * col + scoreUIPadding;
-      int posY = gridHeight * row + scoreUIPadding;
-      int w = gridWidth - 2 * scoreUIPadding;
-      int h = gridHeight - 2 * scoreUIPadding;
-      
-      si.SetRect(posX + w / 2, posY, w / 2, h);
-      si.Tick();
-
-      // Draw the rectangle
-      stroke(strokeColor);
-      fill(0, 0, 0, 128);
-      rect(posX, posY, w, h);
-      
-      fill(255, 255, 255, 255);
-      textSize(50);
-      textAlign(CENTER, CENTER);
-      text(t.GetName(), posX, posY, w / 2, h);
-      
-      if(t.GetState() == Team.ASSIGNED_TEAMA) { numA++; }
-      if(t.GetState() == Team.ASSIGNED_TEAMB) { numB++; }
-    }
+    // The blue team score rect
+    final int blueScoreInputX = scoreInputPadding;
+    final int blueScoreInputY = scoreInputPadding;
+    final int blueScoreInputW = width - 2 * scoreInputPadding;
+    final int blueScoreInputH = height / 2 - scoreInputPadding;
+    blueTeamScoreInput.SetRect(blueScoreInputX + blueScoreInputW / 2, blueScoreInputY, blueScoreInputW / 2, blueScoreInputH);
+    
+    stroke(redTeamColor);
+    fill(0, 0, 0, 128);
+    rect(blueScoreInputX, blueScoreInputY, blueScoreInputW, blueScoreInputH);
+    
+    // The red team score rect
+    final int redScoreInputX = scoreInputPadding;
+    final int redScoreInputY = height / 2 + scoreInputPadding;
+    final int redScoreInputW = width - 2 * scoreInputPadding;
+    final int redScoreInputH = height / 2 - 2 * scoreInputPadding;
+    redTeamScoreInput.SetRect(redScoreInputX + redScoreInputW / 2, redScoreInputY, redScoreInputW / 2, redScoreInputH);
+    
+    stroke(blueTeamColor);
+    fill(0, 0, 0, 128);
+    rect(redScoreInputX, redScoreInputY, redScoreInputW, redScoreInputH);
+    
+    // Draw the labels
+    textAlign(CENTER, CENTER);
+    fill(255, 255, 255, 255);
+    stroke(255, 255, 255, 255);
+    text("Team Red Score: ", redScoreInputX, redScoreInputY, redScoreInputW / 2, redScoreInputH);
+    text("Team Blue Score: ", blueScoreInputX, blueScoreInputY, blueScoreInputW / 2, blueScoreInputH);
   }
 
   @Override
-    public void InitState() {
-    if (judgedTeams == null) {
-      judgedTeams = new ArrayList<ScoreInput>();
-    }
-
-    judgedTeams.clear();
-    for (Team t : ALL_TEAMS) {
-      ScoreInput si = new ScoreInput();
-      si.scoreInput = new TextInput();
-      si.inputTarget = t;
-
-      judgedTeams.add(si);
-      t.SetScore(0);
-    }
+  public void InitState() {
+    blueTeamScoreInput.ClearData();
+    redTeamScoreInput.ClearData();
+    focusedInstance = null;
+    
+    blueTeamScore = 0;
+    redTeamScore = 0;
   }
 
   @Override
   public void TickState() {
-    screenWidth = width;
-    screenHeight = height;
-
-    RenderUI();
-    
-    for(ScoreInput si : judgedTeams) {
-      si.inputTarget.SetScore(si.scoreInput.GetData());
+    if(keyPressed && key == '0') {
+      blueTeamScoreInput.ClearData();
+      redTeamScoreInput.ClearData();
     }
+    
+    blueTeamScoreInput.Tick();
+    redTeamScoreInput.Tick();
+    
+    redTeamScore = redTeamScoreInput.GetData();
+    blueTeamScore = blueTeamScoreInput.GetData();
+    RenderUI();
   }
 }
