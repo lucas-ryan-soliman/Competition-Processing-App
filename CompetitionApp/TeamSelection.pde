@@ -1,11 +1,9 @@
-//TODO: Make the text bigger.
-
 class TeamSelectionState implements AppState {
   // Aliasing and constants for readability  
   private final float rectPadding = 10;
   private final float textSpacing = 10;
-  private final int teamDisplayHeaderFontSize = 40;
-  private final int teamDisplayNameFontSize = 60;
+  private final int teamDisplayHeaderFontSize = 50;
+  private final int teamDisplayNameFontSize = 100;
   
   private int screenRight;
   private int screenMiddle;
@@ -63,11 +61,11 @@ class TeamSelectionState implements AppState {
       pointer = index;
     }
     
-    if(key == 'a') {
+    if(key == 'z') {
       pointer = 8;
     }
     
-    if(key == 'z') {
+    if(key == 'x') {
       pointer = 9;
     }
     
@@ -132,13 +130,13 @@ class TeamSelectionState implements AppState {
       float x = CalculateCenterAlignment(t);
       float y = 0f;
       if(t.GetState() == Team.ASSIGNED_TEAMA) {
-        fill(teamAColor);
+        fill(blueTeamColor);
         y = CalculateVerticalTextOffset(teamDisplayNameFontSize + textSpacing, teamDisplayHeaderFontSize, countTeamA);
         countTeamA++;
       }
       
       if(t.GetState() == Team.ASSIGNED_TEAMB) {
-        fill(teamBColor);
+        fill(redTeamColor);
         y = CalculateVerticalTextOffset(teamDisplayNameFontSize + textSpacing, teamDisplayHeaderFontSize, countTeamB);
         countTeamB++;
       }

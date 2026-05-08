@@ -55,9 +55,8 @@ final int APPSTATE_RESULTS = 3;
 final int GRAPHICSSTATE_NORMAL = 4;
 final int GRAPHICSSTATE_PANICKED = 5;
 
-final int NUM_FISH = 50;
-final int NUM_JELLYFISH = 25;
-final int NUM_BUBBLES = 25;
+final int NUM_FISH = 25;
+final int NUM_BUBBLES = 50;
 
 // This hashmap contains all the different application states and their functionalities
 final HashMap<Integer, AppState> appStateHandlers = new HashMap<Integer, AppState>(); {
@@ -81,9 +80,11 @@ final Team[] ALL_TEAMS = {
   new Team("Team BLUE", Team.ASSIGNED_TEAMNONE) // Z
 };
 
-// Team colors
-final color teamAColor = color(255, 0, 0);
-final color teamBColor = color(0, 0, 255);
+/////////////////
+// Team colors //
+/////////////////
+final color blueTeamColor = color(255, 0, 0);
+final color redTeamColor = color(0, 0, 255);
 
 ////////////////////////////
 // Global State Variables //
@@ -94,22 +95,25 @@ boolean n_keyState;
 
 float time;
 float deltaTime;
-int state;
+int appState;
+
+int blueTeamScore;
+int redTeamScore;
 
 ////////////////////
 // Main functions //
 ////////////////////
 void setup() {
-  state = APPSTATE_TEAMSELECTION;
+  appState = APPSTATE_TEAMSELECTION;
   n_keyState = false;
   frameRate(60);
   fullScreen();
   noSmooth();
   
-  appGraphics = new AppGraphics(NUM_FISH, NUM_JELLYFISH, NUM_BUBBLES);
+  appGraphics = new AppGraphics(NUM_FISH, NUM_BUBBLES);
   
   deltaTime = 1f / 60f;
-  appStateHandlers.get(state).InitState();
+  appStateHandlers.get(appState).InitState();
 }
 
 void draw() {
@@ -121,18 +125,18 @@ void draw() {
   if(keyPressed) {
     if(key == 'n' && !n_keyState) {
       n_keyState = true;
-      state += 1;
-      if(state == APPSTATE_RESULTS + 1) {
-        state = 0;
+      appState += 1;
+      if(appState == APPSTATE_RESULTS + 1) {
+        appState = 0;
       }
       
       // Initialize the new state.
-      appStateHandlers.get(state).InitState();
+      appStateHandlers.get(appState).InitState();
     }
   } else {
     n_keyState = false;
   }
   
   // Tick the current state.
-  appStateHandlers.get(state).TickState();
+  appStateHandlers.get(appState).TickState();
 }

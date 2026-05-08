@@ -1,63 +1,41 @@
-//TODO: Make this display the total scores for each side only (and make it bigger.
-
 class ResultsState implements AppState {
-  private final int gridColumns = 2;
-  private final int gridRows = 6;
-  
-  private final int scoreUIPadding = 20;
-  
-  private void DrawInGrid(int c, int r, String contents, color strokeColor, color fillColor, color txtColor) {
-    if(r == gridRows) {
-      return;
-    }
-    
-    if(c == gridRows) {
-      return;
-    }
-    
-    int gridWidth = width / gridColumns;
-    int gridHeight = height / gridRows;
-    
-    // Calculate padded dimensions
-    int posX = gridWidth * c + scoreUIPadding;
-    int posY = gridHeight * r + scoreUIPadding;
-    int w = gridWidth - 2 * scoreUIPadding;
-    int h = gridHeight - 2 * scoreUIPadding;
-    fill(fillColor);
-    stroke(strokeColor);
-    rect(posX, posY, w, h);
-    
-    fill(txtColor);
-    text(contents, posX, posY, w, h);
-  }
+  private final int scoreInputPadding = 10;
   
   @Override
   public void InitState() {}
   
   @Override
   public void TickState() {
-    // Render the individual scores
-    int numA = 0;
-    int numB = 0;
-    int scoreSumA = 0;
-    int scoreSumB = 0;
-    for(int i = 0; i < ALL_TEAMS.length; i++) {
-      Team t = ALL_TEAMS[i];
-      if(t.GetState() == Team.ASSIGNED_TEAMNONE) {
-        continue;
-      }
+    // The blue team score rect
+    final int blueScoreInputX = scoreInputPadding;
+    final int blueScoreInputY = scoreInputPadding;
+    final int blueScoreInputW = width - 2 * scoreInputPadding;
+    final int blueScoreInputH = height / 2 - scoreInputPadding;
 
-      color strokeColor = t.GetState() == Team.ASSIGNED_TEAMA ? teamAColor : teamBColor;
-      int c = t.GetState() == Team.ASSIGNED_TEAMA ? 0 : 1; 
-      int r = t.GetState() == Team.ASSIGNED_TEAMA ? numA : numB;
-      DrawInGrid(c, r, t.GetName() + ": " + t.GetScore(), strokeColor, color(0, 0, 0, 255), color(255, 255, 255, 255));
-      if(t.GetState() == Team.ASSIGNED_TEAMA) { scoreSumA += t.GetScore(); }
-      if(t.GetState() == Team.ASSIGNED_TEAMB) { scoreSumB += t.GetScore(); }
-      if(t.GetState() == Team.ASSIGNED_TEAMA) { numA++; }
-      if(t.GetState() == Team.ASSIGNED_TEAMB) { numB++; }
-    }
+    stroke(redTeamColor);
+    fill(0, 0, 0, 128);
+    rect(blueScoreInputX, blueScoreInputY, blueScoreInputW, blueScoreInputH);
     
-    DrawInGrid(0, numA, "Team A Score: " + scoreSumA, teamAColor, color(0, 0, 0, 255), color(255, 255, 255, 255));
-    DrawInGrid(1, numB, "Team B Score: " + scoreSumB, teamBColor, color(0, 0, 0, 255), color(255, 255, 255, 255));
+    // The red team score rect
+    final int redScoreInputX = scoreInputPadding;
+    final int redScoreInputY = height / 2 + scoreInputPadding;
+    final int redScoreInputW = width - 2 * scoreInputPadding;
+    final int redScoreInputH = height / 2 - 2 * scoreInputPadding;
+    
+    stroke(blueTeamColor);
+    fill(0, 0, 0, 128);
+    rect(redScoreInputX, redScoreInputY, redScoreInputW, redScoreInputH);
+    
+    // Draw the labels
+    fill(255, 255, 255, 255);
+    textAlign(CENTER, CENTER);
+    
+    textSize(100);
+    text("Team Red Score: ", redScoreInputX, redScoreInputY, redScoreInputW, redScoreInputH / 4);
+    text("Team Blue Score: ", blueScoreInputX, blueScoreInputY, blueScoreInputW, blueScoreInputH / 4);
+    
+    textSize(400);
+    text("" + blueTeamScore, redScoreInputX, redScoreInputY + redScoreInputH / 5, redScoreInputW, redScoreInputH - redScoreInputH / 4);
+    text("" + redTeamScore, blueScoreInputX, blueScoreInputY + blueScoreInputH / 5, blueScoreInputW, blueScoreInputH - blueScoreInputH / 4);
   }
 }

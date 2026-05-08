@@ -3,23 +3,10 @@ class AppGraphics {
   private final int RENDERSTATE_INIT = 0;
   private final int RENDERSTATE_ACTIVE = 1;
   
-  private class JellyFish implements RenderableObject {
-    private int state;
-    
-    public JellyFish() {
-      state = RENDERSTATE_INIT;
-    }
-    
-    @Override
-    public void Render() {
-      
-    }
-  }
-  
   private class Fish implements RenderableObject {
     private final FlipBook fishFlipBook;
     private final float turnSpeed = 5.0f;
-    private final int drawSizeFactor = 2;
+    private final int drawSizeFactor = 4;
     
     private int state;
     private int minXForce, maxXForce;
@@ -232,16 +219,12 @@ class AppGraphics {
   
   private final ArrayList<RenderableObject> renderables;
   
-  public AppGraphics(int numFish, int numJellyFish, int numBubbles) {
+  public AppGraphics(int numFish, int numBubbles) {
     renderables = new ArrayList<RenderableObject>();
     for(int i = 0; i < numFish; i++) {
       renderables.add(new Fish());
     }
-    
-    for(int i = 0; i < numJellyFish; i++) {
-      renderables.add(new JellyFish());
-    }
-    
+
     for(int i = 0; i < numBubbles; i++) {
       renderables.add(new Bubble());
     }
