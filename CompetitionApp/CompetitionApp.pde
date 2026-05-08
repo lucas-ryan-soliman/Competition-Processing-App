@@ -38,6 +38,7 @@ class Team {
   public String GetName() { return teamName; }
   
   public void SetState(int state) { teamState = state; }
+  
   public int GetState() { return teamState; }
   
   public void SetScore(int score) { this.score = score; }
@@ -50,7 +51,7 @@ class Team {
     
     score += deltaScore;
   }
-  
+
   private String teamName;
   private int teamState;
   private int score;
@@ -95,8 +96,8 @@ final Team[] ALL_TEAMS = {
 /////////////////
 // Team colors //
 /////////////////
-final color blueTeamColor = color(255, 0, 0);
-final color redTeamColor = color(0, 0, 255);
+final color blueTeamColor = color(0, 0, 255);
+final color redTeamColor = color(255, 0, 0);
 
 ////////////////////////////
 // Global State Variables //
@@ -111,6 +112,10 @@ int appState;
 
 int blueTeamScore;
 int redTeamScore;
+
+ArrayList<Team> teamsAssignedRed;
+ArrayList<Team> teamsAssignedBlue;
+
 ///////////////////////
 // Utility Functions //
 ///////////////////////
@@ -128,6 +133,9 @@ Team FindFirstTeam(int teamState) {
 // Main functions //
 ////////////////////
 void setup() {
+  teamsAssignedRed = new ArrayList<Team>();
+  teamsAssignedBlue = new ArrayList<Team>();
+  
   appState = APPSTATE_TEAMSELECTION;
   n_keyState = false;
   frameRate(60);

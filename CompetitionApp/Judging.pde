@@ -16,7 +16,7 @@ class JudgingState implements AppState {
     final int blueScoreInputH = height / 2 - scoreInputPadding;
     blueTeamScoreInput.SetRect(blueScoreInputX + blueScoreInputW / 2, blueScoreInputY, blueScoreInputW / 2, blueScoreInputH);
     
-    stroke(redTeamColor);
+    stroke(blueTeamColor);
     fill(0, 0, 0, 128);
     rect(blueScoreInputX, blueScoreInputY, blueScoreInputW, blueScoreInputH);
     
@@ -27,7 +27,7 @@ class JudgingState implements AppState {
     final int redScoreInputH = height / 2 - 2 * scoreInputPadding;
     redTeamScoreInput.SetRect(redScoreInputX + redScoreInputW / 2, redScoreInputY, redScoreInputW / 2, redScoreInputH);
     
-    stroke(blueTeamColor);
+    stroke(redTeamColor);
     fill(0, 0, 0, 128);
     rect(redScoreInputX, redScoreInputY, redScoreInputW, redScoreInputH);
     

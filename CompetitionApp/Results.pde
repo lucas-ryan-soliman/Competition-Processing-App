@@ -12,7 +12,7 @@ class ResultsState implements AppState {
     final int blueScoreInputW = width - 2 * scoreInputPadding;
     final int blueScoreInputH = height / 2 - scoreInputPadding;
 
-    stroke(redTeamColor);
+    stroke(blueTeamColor);
     fill(0, 0, 0, 128);
     rect(blueScoreInputX, blueScoreInputY, blueScoreInputW, blueScoreInputH);
     
@@ -22,7 +22,7 @@ class ResultsState implements AppState {
     final int redScoreInputW = width - 2 * scoreInputPadding;
     final int redScoreInputH = height / 2 - 2 * scoreInputPadding;
     
-    stroke(blueTeamColor);
+    stroke(redTeamColor);
     fill(0, 0, 0, 128);
     rect(redScoreInputX, redScoreInputY, redScoreInputW, redScoreInputH);
     
@@ -31,8 +31,8 @@ class ResultsState implements AppState {
     textAlign(CENTER, CENTER);
     
     textSize(TEXTSIZE_RESULTS_TEAMSCOREHEADERS);
-    Team firstBlue = FindFirstTeam(Team.ASSIGNED_TEAMBLUE);
-    Team firstRed = FindFirstTeam(Team.ASSIGNED_TEAMRED);
+    Team firstBlue = teamsAssignedBlue.size() > 0 ? teamsAssignedBlue.get(0) : null;
+    Team firstRed = teamsAssignedRed.size() > 0 ? teamsAssignedRed.get(0) : null;
     String redScoreName = firstRed == null ? "Team Red" : firstRed.GetName();
     String blueScoreName = firstBlue == null ? "Team Blue" : firstBlue.GetName();
     
