@@ -1,3 +1,5 @@
+//TODO: Make this display the total scores for each side only (and make it bigger.
+
 class ResultsState implements AppState {
   private final int gridColumns = 2;
   private final int gridRows = 6;

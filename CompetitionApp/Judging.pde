@@ -1,3 +1,5 @@
+// TODO: Make this app state only input scores for each side not each team.
+
 class JudgingState implements AppState {
   class ScoreInput {
     public TextInput scoreInput;
@@ -39,7 +41,13 @@ class JudgingState implements AppState {
       
       si.SetRect(posX + w / 2, posY, w / 2, h);
       si.Tick();
-
+      
+      if(keyPressed && key == '0') {
+        for(ScoreInput j : judgedTeams) {
+          j.scoreInput.ClearData();
+        }
+      }
+      
       // Draw the rectangle
       stroke(strokeColor);
       fill(0, 0, 0, 128);

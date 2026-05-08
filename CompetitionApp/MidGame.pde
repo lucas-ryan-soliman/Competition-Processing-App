@@ -24,7 +24,7 @@ class MidGameState implements AppState {
     
     fill(255, 255, 255);
     textAlign(CENTER, CENTER);
-    textSize(250);
+    textSize(700);
     text(minutes + ":" + String.format("%02d", seconds), width / 2, height / 2); 
   }
 }

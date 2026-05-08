@@ -79,6 +79,10 @@ class TextInput {
     currentTimeBuffer = inputTimeBuffer;
   }
 
+  public void ClearData() {
+    data = "";
+  }
+
   public Integer GetData() {
     int res = 0;
     try {
@@ -96,14 +100,18 @@ class TextInput {
     }
 
     ReadData();
-
+    
     fill(0, 0, 0);
+    if(GetData() > 0) {
+      fill(0, 255, 0);
+    }
+    
     stroke(255, 255, 255);
     rect(x, y, w, h);
 
     fill(255, 255, 255, 255);
     textSize(80);
     textAlign(CENTER, CENTER);
-    text(data, x, y, w, h);
+    // text(data, x, y, w, h);
   }
 }

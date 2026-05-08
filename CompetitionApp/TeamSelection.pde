@@ -1,3 +1,5 @@
+//TODO: Make the text bigger.
+
 class TeamSelectionState implements AppState {
   // Aliasing and constants for readability  
   private final float rectPadding = 10;
@@ -61,6 +63,14 @@ class TeamSelectionState implements AppState {
       pointer = index;
     }
     
+    if(key == 'a') {
+      pointer = 8;
+    }
+    
+    if(key == 'z') {
+      pointer = 9;
+    }
+    
     if(key == 'r' && pointer != -1) {
       ALL_TEAMS[pointer].SetState(Team.ASSIGNED_TEAMA);
       return;
@@ -107,8 +117,8 @@ class TeamSelectionState implements AppState {
     textSize(teamDisplayHeaderFontSize);
     
     // Draw the headers
-    text("= Team A =", CalculateMiddle(rectPadding, screenMiddle - rectPadding), rectPadding + teamDisplayHeaderFontSize);
-    text("= Team B =", CalculateMiddle(screenMiddle + rectPadding, screenRight - 2 * rectPadding), rectPadding + teamDisplayHeaderFontSize);
+    text("= Team Red =", CalculateMiddle(rectPadding, screenMiddle - rectPadding), rectPadding + teamDisplayHeaderFontSize);
+    text("= Team Blue =", CalculateMiddle(screenMiddle + rectPadding, screenRight - 2 * rectPadding), rectPadding + teamDisplayHeaderFontSize);
     
     // Draw the teams under their corresponding teams
     int countTeamA = 0;
@@ -139,7 +149,7 @@ class TeamSelectionState implements AppState {
 
       textSize(teamDisplayNameFontSize);
       textAlign(CENTER);
-      text(t.GetName() + " (" + (i+1) + ")" , x, y);
+      text(t.GetName(), x, y);
     }
   }
   

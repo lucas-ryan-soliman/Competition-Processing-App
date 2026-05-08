@@ -52,6 +52,9 @@ final int APPSTATE_MIDGAME = 1;
 final int APPSTATE_JUDGING = 2;
 final int APPSTATE_RESULTS = 3;
 
+final int GRAPHICSSTATE_NORMAL = 4;
+final int GRAPHICSSTATE_PANICKED = 5;
+
 final int NUM_FISH = 50;
 final int NUM_JELLYFISH = 25;
 final int NUM_BUBBLES = 25;
@@ -73,7 +76,9 @@ final Team[] ALL_TEAMS = {
   new Team("Alliston Union", Team.ASSIGNED_TEAMNONE), // 5
   new Team("Boyne River", Team.ASSIGNED_TEAMNONE), // 6
   new Team("Ernest Cumberland", Team.ASSIGNED_TEAMNONE), // 7
-  new Team("Banting Memorial HS", Team.ASSIGNED_TEAMNONE) // 8
+  new Team("Banting Memorial HS", Team.ASSIGNED_TEAMNONE), // 8
+  new Team("Team RED", Team.ASSIGNED_TEAMNONE), // A
+  new Team("Team BLUE", Team.ASSIGNED_TEAMNONE) // Z
 };
 
 // Team colors
@@ -110,6 +115,7 @@ void setup() {
 void draw() {
   time = millis() / 1000.0f;
   appGraphics.RenderBackground();
+  appGraphics.RenderForeground();
   
   // Listen for the advance state key.
   if(keyPressed) {
@@ -129,5 +135,4 @@ void draw() {
   
   // Tick the current state.
   appStateHandlers.get(state).TickState();
-  appGraphics.RenderForeground();
 }
