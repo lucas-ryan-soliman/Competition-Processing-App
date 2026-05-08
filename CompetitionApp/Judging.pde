@@ -51,13 +51,13 @@ class JudgingState implements AppState {
 
   @Override
   public void TickState() {
-    if(keyPressed && key == '0') {
+    blueTeamScoreInput.Tick();
+    redTeamScoreInput.Tick();
+    
+    if(keyPressed && key == 'c') {
       blueTeamScoreInput.ClearData();
       redTeamScoreInput.ClearData();
     }
-    
-    blueTeamScoreInput.Tick();
-    redTeamScoreInput.Tick();
     
     redTeamScore = redTeamScoreInput.GetData();
     blueTeamScore = blueTeamScoreInput.GetData();
