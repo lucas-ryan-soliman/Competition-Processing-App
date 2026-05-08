@@ -35,6 +35,7 @@ class JudgingState implements AppState {
     textAlign(CENTER, CENTER);
     fill(255, 255, 255, 255);
     stroke(255, 255, 255, 255);
+    textSize(TEXTSIZE_JUDGING_TEAMSCOREINPUTLABELS);
     text("Team Red Score: ", redScoreInputX, redScoreInputY, redScoreInputW / 2, redScoreInputH);
     text("Team Blue Score: ", blueScoreInputX, blueScoreInputY, blueScoreInputW / 2, blueScoreInputH);
   }

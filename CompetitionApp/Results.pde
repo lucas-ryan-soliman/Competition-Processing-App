@@ -30,11 +30,16 @@ class ResultsState implements AppState {
     fill(255, 255, 255, 255);
     textAlign(CENTER, CENTER);
     
-    textSize(100);
-    text("Team Red Score: ", redScoreInputX, redScoreInputY, redScoreInputW, redScoreInputH / 4);
-    text("Team Blue Score: ", blueScoreInputX, blueScoreInputY, blueScoreInputW, blueScoreInputH / 4);
+    textSize(TEXTSIZE_RESULTS_TEAMSCOREHEADERS);
+    Team firstBlue = FindFirstTeam(Team.ASSIGNED_TEAMBLUE);
+    Team firstRed = FindFirstTeam(Team.ASSIGNED_TEAMRED);
+    String redScoreName = firstRed == null ? "Team Red" : firstRed.GetName();
+    String blueScoreName = firstBlue == null ? "Team Blue" : firstBlue.GetName();
     
-    textSize(400);
+    text(redScoreName + " Score: ", redScoreInputX, redScoreInputY, redScoreInputW, redScoreInputH / 4);
+    text(blueScoreName + " Score: ", blueScoreInputX, blueScoreInputY, blueScoreInputW, blueScoreInputH / 4);
+    
+    textSize(TEXTSIZE_RESULTS_TEAMSCOREVALUES);
     text("" + redTeamScore, redScoreInputX, redScoreInputY + redScoreInputH / 5, redScoreInputW, redScoreInputH - redScoreInputH / 4);
     text("" + blueTeamScore, blueScoreInputX, blueScoreInputY + blueScoreInputH / 5, blueScoreInputW, blueScoreInputH - blueScoreInputH / 4);
   }

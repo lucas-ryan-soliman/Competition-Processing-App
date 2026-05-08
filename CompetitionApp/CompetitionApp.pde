@@ -1,6 +1,18 @@
 // Imports
 import java.util.Arrays;
 
+// Due to varying physical screen sizes and resolutions, text sizes will need to be adjusted accordingly.
+// Modify the text size values underneath fitting to how you would like (if the text is too large, it will disappear)
+final int TEXTSIZE_TEAMSELECTION_TEAMNAMEDISPLAY = 80;
+final int TEXTSIZE_TEAMSELECTION_TEAMHEADERDISPLAY = 50;
+
+final int TEXTSIZE_MIDGAME_TIMERDISPLAY = 700;
+
+final int TEXTSIZE_JUDGING_TEAMSCOREINPUTLABELS = 60;
+
+final int TEXTSIZE_RESULTS_TEAMSCOREHEADERS = 50;
+final int TEXTSIZE_RESULTS_TEAMSCOREVALUES = 250;
+
 ////////////////////////////////////////////
 // Simple Class and Interface Definitions //
 ////////////////////////////////////////////
@@ -14,8 +26,8 @@ interface RenderableObject {
 }
 
 class Team {  
-  static final int ASSIGNED_TEAMA = 4;
-  static final int ASSIGNED_TEAMB = 5;
+  static final int ASSIGNED_TEAMRED = 4;
+  static final int ASSIGNED_TEAMBLUE = 5;
   static final int ASSIGNED_TEAMNONE = 6;
   
   public Team(String name, int initState) {
@@ -99,6 +111,18 @@ int appState;
 
 int blueTeamScore;
 int redTeamScore;
+///////////////////////
+// Utility Functions //
+///////////////////////
+Team FindFirstTeam(int teamState) {
+  for(Team t : ALL_TEAMS) {
+    if(t.GetState() == teamState) {
+      return t;
+    }
+  }
+  
+  return null;
+}
 
 ////////////////////
 // Main functions //
